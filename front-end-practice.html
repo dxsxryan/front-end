@@ -8,12 +8,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <style>
-        .container_card{
+        .container_card {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
         }
-        .dropdown_select{
+
+        .dropdown_select {
             height: 40px;
             display: flex;
             justify-content: center;
@@ -23,7 +24,7 @@
 
 
 
-    </head>
+</head>
 
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -95,8 +96,8 @@
             <select name="productType" id="select_1">
                 <option value="all">總商品</option>
                 <option value="3C">3C</option>
-                <option value="drink">飲料</option>
-                <option value="food">食物</option>
+                <option value="飲料">飲料</option>
+                <option value="食品">食品</option>
             </select>
         </div>
         <div class="dropdown dropdown_select">
@@ -145,11 +146,31 @@
 
 
         function filterProductType() {
-            let selectType = productType_select.options[productType_select.selectedIndex].value;
-            if (selectedType === '3C') {
-                product.filter(x => x.ProductType === selectType)
+            container.innerHTML = "";
+            let selectedType = productType_select.value;
+            if(selectedType != "all") {
+                let filteredProduct = product.filter(x => x.ProductType === selectedType);
+                filteredProduct.forEach(x => {
+                let card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `
+                <img src="https://picsum.photos/300/200/?random=10" class="card-img-top">`;
+                let card_body = document.createElement("div");
+                card_body.setAttribute("class", "card-body");
+                card_body.innerHTML = `
+                <h5 class="product-number card-title">${x.ProductNumber}</h5>
+                <p class="product-name card-text">${x.ProductName}</p>
+                <p class="product-amount card-text">${x.Amount}</p>
+                <p class="product-price card-text">${x.Price}</p>
+                <p class="product-type card-text">${x.ProductType}</p>`;
+                card.append(card_body);
+                container.append(card);
+                });
             }
-        
+            else {
+                show_table();
+            }
+            
         }
     </script>
 
